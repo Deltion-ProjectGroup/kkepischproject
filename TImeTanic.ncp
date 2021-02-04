@@ -8,35 +8,40 @@
         <Name>Player</Name>
         <Access>Public</Access>
         <Location left="1876" top="2589" />
-        <Size width="162" height="264" />
+        <Size width="162" height="332" />
         <Collapsed>False</Collapsed>
         <Member type="Field">float movementSpeed</Member>
+        <Member type="Field">float rotateSpeed</Member>
         <Member type="Field">Vector3 dashVelocity</Member>
         <Member type="Field">float interactDelay</Member>
         <Member type="Field">bool canInteract</Member>
         <Member type="Field">Interactable currentUsingInteractable</Member>
         <Member type="Field">Enum Role</Member>
         <Member type="Method">public void Movement()</Member>
-        <Member type="Method">public void Dash()</Member>
+        <Member type="Method">public void CheckDash()</Member>
+        <Member type="Method">public void PerformDash()</Member>
         <Member type="Method">public void Interact()</Member>
         <Member type="Method">public void FinishedInteract()</Member>
-        <Member type="Method">public Player InteractDelay()</Member>
+        <Member type="Method">public IEnumerator InteractDelay()</Member>
+        <Member type="Method">public void Update()</Member>
+        <Member type="Method">public bool CheckInteract()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>Interactable</Name>
         <Access>Public</Access>
         <Location left="346" top="1037" />
-        <Size width="162" height="216" />
+        <Size width="162" height="230" />
         <Collapsed>False</Collapsed>
         <Member type="Field">float interactDuration</Member>
         <Member type="Field">public bool canInteract = true</Member>
         <Member type="Field">float interactDelay</Member>
         <Member type="Field">Player currentInteractingPlayer</Member>
-        <Member type="Method">public Void CheckInteract(Player target)</Member>
+        <Member type="Method">public Void CanInteract()</Member>
         <Member type="Method">public virtual void CompleteInteract(Player target)</Member>
         <Member type="Method">public IEnumerator StartInteractDelay()</Member>
         <Member type="Method">public virtual void CancelInteract()</Member>
+        <Member type="Method">public virtual void Interact()</Member>
         <Modifier>Abstract</Modifier>
       </Entity>
       <Entity type="Class">
@@ -150,7 +155,7 @@
       <Entity type="Class">
         <Name>CameraHandler</Name>
         <Access>Public</Access>
-        <Location left="1876" top="2901" />
+        <Location left="1876" top="2957" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">Camera[] allCameras</Member>
@@ -640,7 +645,7 @@
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
           <X>432</X>
-          <Y>1279</Y>
+          <Y>1293</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="31" second="1">
@@ -652,7 +657,7 @@
         </BendPoint>
         <BendPoint relativeToStartShape="False">
           <X>432</X>
-          <Y>1279</Y>
+          <Y>1293</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="15" second="1">
@@ -660,7 +665,7 @@
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
           <X>432</X>
-          <Y>1278</Y>
+          <Y>1292</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="22" second="15">
@@ -764,46 +769,66 @@
         </BendPoint>
       </Relationship>
       <Relationship type="Dependency" first="12" second="40">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="6" second="4">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="3" second="4">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="7" second="4">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="6" second="9">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="3" second="9">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="7" second="9">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="10" second="0">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
           <X>1957</X>
-          <Y>2876</Y>
+          <Y>2932</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Dependency" first="32" second="31">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="46" second="45">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -812,8 +837,6 @@
         </BendPoint>
       </Relationship>
       <Relationship type="Dependency" first="26" second="47">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
@@ -822,20 +845,14 @@
         </BendPoint>
       </Relationship>
       <Relationship type="Dependency" first="8" second="48">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="46" second="49">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="51" second="37">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
@@ -864,8 +881,6 @@
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="41" second="53">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
