@@ -17,9 +17,17 @@ public class Player : Entity
     //public Interactable currentUsingInteractable; //The current interactable the player is using or holding
     public Role role; //The role of the player, this is used for where the player needs to be spawned
 
+    [Header("Slopes")]
+    [SerializeField] float maxAngle;
+    [SerializeField] float slopeBoosterModifier = 1;
+    [SerializeField] Transform slopeCheckOrigin;
+    [SerializeField] float rayRange;
+    [SerializeField] LayerMask slopeMask;
+
     [Header("Camera")]
     public Transform playerCamera;
-    [SerializeField] Transform cameraTargetLocation;
+    [SerializeField] bool followX = true, followZ = true;
+    [SerializeField] float zDistance;
     [SerializeField] float followSpeed;
 
     [Header("Interaction")]
@@ -45,6 +53,7 @@ public class Player : Entity
 
         movementAmount = movementAmount.normalized;
 
+        Vector3 movementAmountRaw = movementAmount;
 
         if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
         {
@@ -82,6 +91,16 @@ public class Player : Entity
             velocityDirection.y = 0;
             Quaternion targetRotation = Quaternion.LookRotation(velocityDirection.normalized);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.fixedDeltaTime);
+
+            RaycastHit hitData;
+
+            if(Physics.Raycast(slopeCheckOrigin.position, movementAmountRaw, out hitData, rayRange, slopeMask))
+            {
+                float angle = Vector3.Angle(transform.up, hitData.transform.up);
+                Debug.Log("Angle = " + angle);
+                float yDifference = hitData.point.y - transform.position.y;
+                transform.Translate(new Vector3(0, yDifference * slopeBoosterModifier, 0));
+            }
         }
         else
         {
@@ -182,9 +201,17 @@ public class Player : Entity
 
     void CameraFollow()
     {
-        Vector3 targetPosition = cameraTargetLocation.position;
-        targetPosition.y = playerCamera.position.y;
-        playerCamera.transform.position = Vector3.Lerp(playerCamera.transform.position, targetPosition, followSpeed);
+        Vector3 targetPosition = playerCamera.transform.position;
+        if (followX)
+        {
+            targetPosition.x = transform.position.x;
+        }
+        if (followZ)
+        {
+            float distanceToMoveOnZ = playerCamera.transform.position.z - transform.position.z <= 0 ? -1 * zDistance : 1 * zDistance;
+            targetPosition.z = transform.position.z + distanceToMoveOnZ;
+        }
+        playerCamera.transform.position = Vector3.Lerp(playerCamera.transform.position, targetPosition, followSpeed * Time.deltaTime);
     }
 
     public enum Role { TestRole}
