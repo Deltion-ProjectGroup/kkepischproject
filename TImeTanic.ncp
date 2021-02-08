@@ -8,7 +8,7 @@
         <Name>Player</Name>
         <Access>Public</Access>
         <Location left="1876" top="2589" />
-        <Size width="162" height="332" />
+        <Size width="162" height="349" />
         <Collapsed>False</Collapsed>
         <Member type="Field">float movementSpeed</Member>
         <Member type="Field">float rotateSpeed</Member>
@@ -31,7 +31,7 @@
         <Name>Interactable</Name>
         <Access>Public</Access>
         <Location left="346" top="1037" />
-        <Size width="162" height="230" />
+        <Size width="162" height="247" />
         <Collapsed>False</Collapsed>
         <Member type="Field">float interactDuration</Member>
         <Member type="Field">public bool canInteract = true</Member>
@@ -42,6 +42,7 @@
         <Member type="Method">public IEnumerator StartInteractDelay()</Member>
         <Member type="Method">public virtual void CancelInteract()</Member>
         <Member type="Method">public virtual void Interact()</Member>
+        <Member type="Method">public virtual void OnResultCanInteract(bool result)</Member>
         <Modifier>Abstract</Modifier>
       </Entity>
       <Entity type="Class">
@@ -161,8 +162,7 @@
         <Member type="Field">Camera[] allCameras</Member>
         <Member type="Field">List&lt;Camera&gt; activeCameras</Member>
         <Member type="Field">private bool handleCameras = true</Member>
-        <Member type="Method">public void StopHandlingCameras()</Member>
-        <Member type="Method">public void StartHandlingCameras()</Member>
+        <Member type="Method">public void HandleCameras(bool value)</Member>
         <Member type="Method">public void Update()</Member>
         <Modifier>None</Modifier>
       </Entity>
@@ -215,21 +215,23 @@
         <Name>Grabbable</Name>
         <Access>Public</Access>
         <Location left="128" top="1360" />
-        <Size width="162" height="216" />
+        <Size width="162" height="230" />
         <Collapsed>False</Collapsed>
         <Member type="Field">string itemName</Member>
+        <Member type="Field">private readonly Vector3 itemLocalPosition</Member>
+        <Member type="Field">private readonly Vector3 itemLocalEulers</Member>
+        <Member type="Field">Transform leftHandHandle</Member>
+        <Member type="Field">Transform rightHandHandle</Member>
         <Member type="Method">public override void CompleteInteract()</Member>
         <Member type="Method">public virtual void Attach()</Member>
         <Member type="Method">public virtual void Detach()</Member>
-        <Member type="Method">public void Break()</Member>
-        <Member type="Method">public void OnDestroy()</Member>
-        <Member type="Event">public event EventHandler onDestroyEvent</Member>
+        <Member type="Method">public virtual void Break()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>Weapon</Name>
         <Access>Public</Access>
-        <Location left="346" top="2304" />
+        <Location left="346" top="2714" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">int damage = 1</Member>
@@ -238,7 +240,7 @@
       <Entity type="Class">
         <Name>Axe</Name>
         <Access>Public</Access>
-        <Location left="465" top="2575" />
+        <Location left="465" top="2985" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Modifier>None</Modifier>
@@ -246,7 +248,7 @@
       <Entity type="Class">
         <Name>Gun</Name>
         <Access>Public</Access>
-        <Location left="233" top="2575" />
+        <Location left="233" top="2985" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private ParticleSystem fireParticle</Member>
@@ -284,7 +286,7 @@
       <Entity type="Class">
         <Name>UsableGrabbable</Name>
         <Access>Public</Access>
-        <Location left="346" top="2022" />
+        <Location left="346" top="2432" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private bool canUse = true</Member>
@@ -298,7 +300,7 @@
       <Entity type="Class">
         <Name>FireExtuingisher</Name>
         <Access>Public</Access>
-        <Location left="562" top="2304" />
+        <Location left="562" top="2714" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">private float extuingishAmountPerSecond</Member>
@@ -343,7 +345,7 @@
       <Entity type="Class">
         <Name>Wheelchair</Name>
         <Access>Public</Access>
-        <Location left="562" top="2022" />
+        <Location left="562" top="2432" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">Transform fallRotation</Member>
@@ -372,7 +374,7 @@
       <Entity type="Class">
         <Name>BeefFishingrod</Name>
         <Access>Public</Access>
-        <Location left="128" top="2022" />
+        <Location left="128" top="2432" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Method">public void OnTriggerEnter(Collider collider)</Member>
@@ -418,7 +420,7 @@
       <Entity type="Class">
         <Name>WaterBucket</Name>
         <Access>Public</Access>
-        <Location left="126" top="2304" />
+        <Location left="126" top="2714" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">float extuingishAmount</Member>
@@ -559,7 +561,7 @@
       <Entity type="Class">
         <Name>CraftingRecipe</Name>
         <Access>Public</Access>
-        <Location left="346" top="1623" />
+        <Location left="346" top="1681" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">string[] requiredItems</Member>
@@ -645,7 +647,7 @@
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
           <X>432</X>
-          <Y>1293</Y>
+          <Y>1310</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="31" second="1">
@@ -657,7 +659,7 @@
         </BendPoint>
         <BendPoint relativeToStartShape="False">
           <X>432</X>
-          <Y>1293</Y>
+          <Y>1310</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="15" second="1">
@@ -665,19 +667,19 @@
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
           <X>432</X>
-          <Y>1292</Y>
+          <Y>1309</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="22" second="15">
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
-          <X>426</X>
-          <Y>1997</Y>
+          <X>425</X>
+          <Y>2407</Y>
         </BendPoint>
         <BendPoint relativeToStartShape="False">
           <X>208</X>
-          <Y>1764</Y>
+          <Y>2166</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="27" second="15">
@@ -685,12 +687,16 @@
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
           <X>208</X>
-          <Y>1764</Y>
+          <Y>2164</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="30" second="15">
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>208</X>
+          <Y>2211</Y>
+        </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="23" second="22">
         <StartOrientation>Vertical</StartOrientation>
@@ -841,7 +847,7 @@
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
           <X>423</X>
-          <Y>1598</Y>
+          <Y>1656</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Dependency" first="8" second="48">

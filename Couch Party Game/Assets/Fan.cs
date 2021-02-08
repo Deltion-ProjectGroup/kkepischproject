@@ -8,7 +8,10 @@ public class Fan : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        foreach (string test in Input.GetJoystickNames())
+        {
+            Debug.Log(test);
+        }
     }
 
     // Update is called once per frame
@@ -19,9 +22,8 @@ public class Fan : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if(other.tag == "Player")
+        if(other.GetComponent<Rigidbody>() != null)
         {
-            Debug.Log("ADDED FORCE");
             Rigidbody rigid = other.GetComponent<Rigidbody>();
             rigid.AddForce(transform.forward * force, ForceMode.Acceleration);
         }
