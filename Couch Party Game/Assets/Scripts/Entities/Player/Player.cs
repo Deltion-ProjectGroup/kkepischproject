@@ -50,8 +50,10 @@ public class Player : Entity
     bool canDash = true;
     [SerializeField] float dashVelocity;
     [SerializeField] float dashCooldown; // Minimal duration before you can dash again
-    [SerializeField] bool waitUntilStill = true; //Player can't move until he is in no motion anymore
-    [SerializeField] float maxStillVelocity = 1;
+    [SerializeField] bool stopOnCollision = true; //Player can't move until he is in no motion anymore
+    [SerializeField] float checkRange;
+    [SerializeField] float dashDuration;
+    [SerializeField] LayerMask hittableLayers;
 
     private void Update()
     {
@@ -147,7 +149,7 @@ public class Player : Entity
 
             Vector3 velocityDirection = thisRigid.velocity;
             velocityDirection.y = 0;
-            Quaternion targetRotation = Quaternion.LookRotation(velocityDirection.normalized);
+            Quaternion targetRotation = Quaternion.LookRotation(movementAmount.normalized);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.fixedDeltaTime);
 
             RaycastHit hitData;
@@ -155,7 +157,6 @@ public class Player : Entity
             if (Physics.Raycast(slopeCheckOrigin.position, movementAmountRaw, out hitData, rayRange, slopeMask))
             {
                 float angle = Vector3.Angle(transform.up, hitData.transform.up);
-                Debug.Log("Angle = " + angle);
                 if (angle <= maxAngle)
                 {
                     float yDifference = hitData.point.y - transform.position.y;
@@ -206,35 +207,37 @@ public class Player : Entity
     void PerformDash()
     {
         Debug.Log("DASHED");
-        Vector3 direction = transform.forward;
-        thisRigid.AddForce(direction * dashVelocity);
-        //thisRigid.velocity = direction;
+        canMove = false;
+        canDash = false;
+        StartCoroutine(DashRoutine());
+    }
+
+    IEnumerator DashRoutine()
+    {
+        float duration = 0;
+
+        while (duration < dashDuration)
+        {
+            float decreaseOverDuration = (dashDuration - duration) / dashDuration;
+            RaycastHit hitData;
+
+            if(Physics.Raycast(transform.position, transform.forward, out hitData, checkRange, hittableLayers, QueryTriggerInteraction.Ignore))
+            {
+                if (stopOnCollision)
+                {
+                    break;
+                }
+            }
+            transform.Translate(Vector3.forward * dashVelocity * Time.deltaTime * decreaseOverDuration);
+            yield return null;
+            duration += Time.deltaTime;
+        }
+
         StartCoroutine(DashCooldown());
     }
 
     IEnumerator DashCooldown()
     {
-        canMove = false;
-        canDash = false;
-
-        while (true)
-        {
-            if (waitUntilStill)
-            {
-                if (thisRigid.velocity.x < maxStillVelocity && thisRigid.velocity.x > -maxStillVelocity)
-                {
-                    if (thisRigid.velocity.y < maxStillVelocity && thisRigid.velocity.y > -maxStillVelocity)
-                    {
-                        if (thisRigid.velocity.z < maxStillVelocity && thisRigid.velocity.z > -maxStillVelocity)
-                        {
-                            break;
-                        }
-                    }
-                }
-            }
-            yield return null;
-        }
-
         yield return new WaitForSeconds(dashCooldown);
 
         canDash = true;

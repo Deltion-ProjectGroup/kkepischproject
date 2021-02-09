@@ -112260,6 +112260,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6358240073852371947, guid: ba52bf5c3d9722341bc07bd628fd8d93,
         type: 3}
+      propertyPath: checkRange
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6358240073852371947, guid: ba52bf5c3d9722341bc07bd628fd8d93,
+        type: 3}
       propertyPath: dashButton
       value: Fire2
       objectReference: {fileID: 0}
@@ -112267,6 +112272,11 @@ PrefabInstance:
         type: 3}
       propertyPath: dropButton
       value: Fire2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6358240073852371947, guid: ba52bf5c3d9722341bc07bd628fd8d93,
+        type: 3}
+      propertyPath: rotateSpeed
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 6358240073852371947, guid: ba52bf5c3d9722341bc07bd628fd8d93,
         type: 3}
@@ -112281,12 +112291,17 @@ PrefabInstance:
     - target: {fileID: 6358240073852371947, guid: ba52bf5c3d9722341bc07bd628fd8d93,
         type: 3}
       propertyPath: dashCooldown
-      value: 1
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6358240073852371947, guid: ba52bf5c3d9722341bc07bd628fd8d93,
+        type: 3}
+      propertyPath: dashDuration
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 6358240073852371947, guid: ba52bf5c3d9722341bc07bd628fd8d93,
         type: 3}
       propertyPath: dashVelocity
-      value: 700
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6358240073852371947, guid: ba52bf5c3d9722341bc07bd628fd8d93,
         type: 3}
@@ -112315,8 +112330,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6358240073852371947, guid: ba52bf5c3d9722341bc07bd628fd8d93,
         type: 3}
+      propertyPath: currentHoldingItem
+      value: 
+      objectReference: {fileID: 1344103224}
+    - target: {fileID: 6358240073852371947, guid: ba52bf5c3d9722341bc07bd628fd8d93,
+        type: 3}
       propertyPath: maxRotationVelocity
       value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6358240073852371947, guid: ba52bf5c3d9722341bc07bd628fd8d93,
+        type: 3}
+      propertyPath: slopeBoosterModifier
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6358240073852371947, guid: ba52bf5c3d9722341bc07bd628fd8d93,
+        type: 3}
+      propertyPath: hittableLayers.m_Bits
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 6358240073852371947, guid: ba52bf5c3d9722341bc07bd628fd8d93,
         type: 3}
