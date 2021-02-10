@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Entity
+public class Player : MovingEntity
 {
     [Header("Player")]
     public bool canMove = true;
-    public float movementSpeed = 1;
     [SerializeField] float maxVelocity = 1;
     public int decellerationBlocks;
     [SerializeField] float decellerationSpeed = 1;
@@ -328,5 +327,5 @@ public class Player : Entity
         playerCamera.transform.position = Vector3.Lerp(playerCamera.transform.position, targetPosition, followSpeed * Time.deltaTime);
     }
 
-    public enum Role { TestRole}
+    public enum Role { TestRole, OtherTestRole}
 }
