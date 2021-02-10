@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class Player : MovingEntity
 {
-    [Header("Player")]
+    [Header("General")]
+    public Role role; //The role of the player, this is used for where the player needs to be spawned
+
+    [Header("Movement")]
     public bool canMove = true;
     [SerializeField] float maxVelocity = 1;
     public int decellerationBlocks;
     [SerializeField] float decellerationSpeed = 1;
     [SerializeField] float rotateSpeed = 1;
-    [SerializeField] float interactDelay; //Delay before u can interact again
-    bool isDashing;
-    [SerializeField] bool canInteract = true;
-    public Interactable currentUsingInteractable; //The current interactable the player is using or holding
-    public Grabbable currentHoldingItem; //The current item the player is holding;
-    public Role role; //The role of the player, this is used for where the player needs to be spawned
+
+    [Header("Jumping")]
+    [SerializeField] float jumpVelocity = 1;
+    [SerializeField] bool canJump = true;
+    [SerializeField] string jumpButton;
+
+    [SerializeField] float jumpDetectionRange = 1;
+    [SerializeField] LayerMask jumpableLayers;
 
     [Header("Slopes")]
     [SerializeField] float maxAngle;
@@ -35,6 +40,10 @@ public class Player : MovingEntity
     [SerializeField] Transform interactionBox; //Box that checks if an interactable is inside
     [SerializeField] LayerMask interactableLayers;
     Interactable nearestInteractable;
+    [SerializeField] float interactDelay; //Delay before u can interact again
+    [SerializeField] bool canInteract = true;
+    public Interactable currentUsingInteractable; //The current interactable the player is using or holding
+    public Grabbable currentHoldingItem; //The current item the player is holding;
 
     [SerializeField] string dropButton;
 
@@ -61,6 +70,7 @@ public class Player : MovingEntity
         //DropCurrentItem();
         //ThrowCurrentItem();
         CheckDash();
+        Jump();
     }
 
     private void FixedUpdate()
@@ -103,6 +113,17 @@ public class Player : MovingEntity
         if (currentHoldingItem != null && Input.GetButtonDown(dropButton))
         {
             currentHoldingItem.Disattach();
+        }
+    }
+
+    void Jump()
+    {
+        if(canJump && Input.GetButtonDown(jumpButton))
+        {
+            if (Physics.Raycast(transform.position, -transform.up, jumpDetectionRange, jumpableLayers, QueryTriggerInteraction.Ignore))
+            {
+                thisRigid.AddForce(Vector3.up * jumpVelocity, ForceMode.Impulse);
+            }
         }
     }
 

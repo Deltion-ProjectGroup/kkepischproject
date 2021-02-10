@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -58,6 +59,7 @@ public class SpawnManager : MonoBehaviour
 
     void ActualSpawn(Transform location, GameObject character)
     {
+        PlayerInput.Instantiate(gameObject);
         Player newCharacter = Instantiate(character, location.position, location.rotation).GetComponent<Player>();
         localPlayers.Add(newCharacter);
         globalPlayers.Add(newCharacter);
