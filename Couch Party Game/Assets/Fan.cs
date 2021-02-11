@@ -17,7 +17,11 @@ public class Fan : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log(Input.GetAxis("Test"));
+        if (Input.GetButton("Test"))
+        {
+            Debug.Log("BUTTON HELD");
+        }
     }
 
     private void OnTriggerStay(Collider other)
