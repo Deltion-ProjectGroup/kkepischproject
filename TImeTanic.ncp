@@ -29,7 +29,7 @@
       <Entity type="Class">
         <Name>Interactable</Name>
         <Access>Public</Access>
-        <Location left="346" top="1037" />
+        <Location left="346" top="1522" />
         <Size width="162" height="247" />
         <Collapsed>False</Collapsed>
         <Member type="Field">float interactDuration</Member>
@@ -59,18 +59,17 @@
       <Entity type="Class">
         <Name>MainMenu</Name>
         <Access>Public</Access>
-        <Location left="320" top="70" />
+        <Location left="320" top="555" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Method">public void StartGame()</Member>
-        <Member type="Method">public void OpenMenu()</Member>
         <Member type="Method">public void ExitGame()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>Options</Name>
         <Access>Public</Access>
-        <Location left="222" top="361" />
+        <Location left="222" top="846" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Method">public void SetQualityLevel()</Member>
@@ -82,7 +81,7 @@
       <Entity type="Class">
         <Name>SceneManager</Name>
         <Access>Public</Access>
-        <Location left="257" top="738" />
+        <Location left="257" top="1223" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">GameObject transitionScreen</Member>
@@ -97,7 +96,7 @@
       <Entity type="Class">
         <Name>LobbyFinder</Name>
         <Access>Public</Access>
-        <Location left="127" top="70" />
+        <Location left="127" top="555" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Method">public void Start()</Member>
@@ -108,7 +107,7 @@
       <Entity type="Class">
         <Name>Lobby</Name>
         <Access>Public</Access>
-        <Location left="502" top="70" />
+        <Location left="502" top="555" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Method">public void Update()</Member>
@@ -116,12 +115,13 @@
         <Member type="Method">public void Start()</Member>
         <Member type="Method">public void PlayerConnectionAdded()</Member>
         <Member type="Method">public void PlayerConnectionRemoved()</Member>
+        <Member type="Method">public void LoadConnectedPlayers()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>InputManager</Name>
         <Access>Public</Access>
-        <Location left="864" top="738" />
+        <Location left="864" top="1223" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">Enum[] connectedControllers</Member>
@@ -133,7 +133,7 @@
       <Entity type="Class">
         <Name>SoundManager</Name>
         <Access>Public</Access>
-        <Location left="417" top="361" />
+        <Location left="417" top="846" />
         <Size width="162" height="298" />
         <Collapsed>False</Collapsed>
         <Member type="Field">audioClip[] defaultBackgroundMusicClips</Member>
@@ -167,7 +167,7 @@
       <Entity type="Class">
         <Name>CutsceneManager</Name>
         <Access>Public</Access>
-        <Location left="56" top="738" />
+        <Location left="56" top="1223" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">AnimationClip[] cutscenes</Member>
@@ -212,7 +212,7 @@
       <Entity type="Class">
         <Name>Grabbable</Name>
         <Access>Public</Access>
-        <Location left="128" top="1360" />
+        <Location left="128" top="1845" />
         <Size width="162" height="230" />
         <Collapsed>False</Collapsed>
         <Member type="Field">string itemName</Member>
@@ -329,7 +329,7 @@
       <Entity type="Class">
         <Name>CraftingStation</Name>
         <Access>Public</Access>
-        <Location left="346" top="1360" />
+        <Location left="346" top="1845" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">CraftingRecipe[] recipes</Member>
@@ -382,7 +382,7 @@
       <Entity type="Class">
         <Name>Toggle</Name>
         <Access>Public</Access>
-        <Location left="562" top="1360" />
+        <Location left="562" top="1845" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">bool toggled</Member>
@@ -396,7 +396,7 @@
       <Entity type="Class">
         <Name>ToggleCheck</Name>
         <Access>Public</Access>
-        <Location left="783" top="1358" />
+        <Location left="783" top="1843" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">Toggle[] togglesToCheck</Member>
@@ -538,7 +538,7 @@
       <Entity type="Class">
         <Name>GameManager</Name>
         <Access>Public</Access>
-        <Location left="459" top="738" />
+        <Location left="459" top="1223" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Method">public void StartGame()</Member>
@@ -548,7 +548,7 @@
       <Entity type="Class">
         <Name>SpawnManager</Name>
         <Access>Public</Access>
-        <Location left="660" top="738" />
+        <Location left="660" top="1223" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">Spawn[] spawns</Member>
@@ -559,7 +559,7 @@
       <Entity type="Class">
         <Name>CraftingRecipe</Name>
         <Access>Public</Access>
-        <Location left="346" top="1681" />
+        <Location left="346" top="2166" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">string[] requiredItems</Member>
@@ -569,7 +569,7 @@
       <Entity type="Class">
         <Name>Controller</Name>
         <Access>Public</Access>
-        <Location left="864" top="1024" />
+        <Location left="864" top="1509" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
         <Member type="Field">int controllerIndex</Member>
@@ -661,6 +661,16 @@
         <Member type="Field">public float movementSpeed</Member>
         <Modifier>None</Modifier>
       </Entity>
+      <Entity type="Class">
+        <Name>Menu</Name>
+        <Access>Public</Access>
+        <Location left="320" top="214" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public virtual void OnOpenMenu()</Member>
+        <Member type="Method">public virtual void OnCloseMenu()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
     </Entities>
     <Relationships>
       <Relationship type="Generalization" first="26" second="1">
@@ -668,7 +678,7 @@
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
           <X>432</X>
-          <Y>1310</Y>
+          <Y>1795</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="31" second="1">
@@ -676,11 +686,11 @@
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
           <X>645</X>
-          <Y>1334</Y>
+          <Y>1819</Y>
         </BendPoint>
         <BendPoint relativeToStartShape="False">
           <X>432</X>
-          <Y>1310</Y>
+          <Y>1795</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="15" second="1">
@@ -688,7 +698,7 @@
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
           <X>432</X>
-          <Y>1309</Y>
+          <Y>1794</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="22" second="15">
@@ -700,23 +710,23 @@
         </BendPoint>
         <BendPoint relativeToStartShape="False">
           <X>208</X>
-          <Y>2166</Y>
+          <Y>2424</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="27" second="15">
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
-          <X>208</X>
-          <Y>2164</Y>
+          <X>207</X>
+          <Y>2410</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="30" second="15">
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
-          <X>208</X>
-          <Y>2211</Y>
+          <X>207</X>
+          <Y>2260</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Generalization" first="23" second="22">
@@ -840,7 +850,7 @@
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="True">
           <X>635</X>
-          <Y>857</Y>
+          <Y>1342</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Dependency" first="26" second="47">
@@ -850,7 +860,7 @@
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
           <X>423</X>
-          <Y>1656</Y>
+          <Y>2141</Y>
         </BendPoint>
       </Relationship>
       <Relationship type="Dependency" first="8" second="48">
@@ -904,6 +914,18 @@
         <EndOrientation>Horizontal</EndOrientation>
       </Relationship>
       <Relationship type="Generalization" first="56" second="51">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="7" second="57">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="6" second="57">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="3" second="57">
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>

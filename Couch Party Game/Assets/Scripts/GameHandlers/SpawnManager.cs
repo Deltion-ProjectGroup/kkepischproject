@@ -59,7 +59,6 @@ public class SpawnManager : MonoBehaviour
 
     void ActualSpawn(Transform location, GameObject character)
     {
-        PlayerInput.Instantiate(gameObject);
         Player newCharacter = Instantiate(character, location.position, location.rotation).GetComponent<Player>();
         localPlayers.Add(newCharacter);
         globalPlayers.Add(newCharacter);
