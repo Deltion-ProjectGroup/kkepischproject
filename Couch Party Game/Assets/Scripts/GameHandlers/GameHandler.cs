@@ -120,7 +120,6 @@ namespace Custom.Time
             Debug.Log(remainingMinutes);
             while (remainingMinutes != 0 || remainingSeconds != 0)
             {
-                Debug.Log(remainingMinutes);
                 if (remainingSeconds > 0)
                 {
                     remainingSeconds--;

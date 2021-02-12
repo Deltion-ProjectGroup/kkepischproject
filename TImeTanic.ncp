@@ -157,8 +157,8 @@
         <Location left="1589" top="3369" />
         <Size width="162" height="216" />
         <Collapsed>False</Collapsed>
-        <Member type="Field">Camera[] allCameras</Member>
-        <Member type="Field">List&lt;Camera&gt; activeCameras</Member>
+        <Member type="Field">Player[] allPlayers</Member>
+        <Member type="Field">Transform globalCamera</Member>
         <Member type="Field">private bool handleCameras = true</Member>
         <Member type="Method">public void HandleCameras(bool value)</Member>
         <Member type="Method">public void Update()</Member>
@@ -806,34 +806,50 @@
         </BendPoint>
       </Relationship>
       <Relationship type="Dependency" first="12" second="40">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="6" second="4">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="3" second="4">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="7" second="4">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="6" second="9">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="3" second="9">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="7" second="9">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="10" second="0">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -842,10 +858,14 @@
         </BendPoint>
       </Relationship>
       <Relationship type="Dependency" first="32" second="31">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="46" second="45">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -854,8 +874,6 @@
         </BendPoint>
       </Relationship>
       <Relationship type="Dependency" first="26" second="47">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="False">
@@ -864,14 +882,10 @@
         </BendPoint>
       </Relationship>
       <Relationship type="Dependency" first="8" second="48">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="50" second="37">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
@@ -888,8 +902,6 @@
         </BendPoint>
       </Relationship>
       <Relationship type="Dependency" first="41" second="52">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>

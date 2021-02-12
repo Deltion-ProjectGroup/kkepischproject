@@ -10,7 +10,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] Transform defaultSpawn;
     [SerializeField] bool onlyUniqueCharacters = true;
 
-    [HideInInspector] public List<Player> localPlayers = new List<Player>();
+    public List<Player> localPlayers = new List<Player>();
     [HideInInspector] public List<Player> globalPlayers = new List<Player>();
     [HideInInspector] public GameObject lastLocalPlayer;
 
