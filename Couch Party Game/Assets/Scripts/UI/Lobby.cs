@@ -7,23 +7,23 @@ using UnityEngine.InputSystem;
 public class Lobby : Menu
 {
     [SerializeField] Image[] playerIcons;
-    [SerializeField] int maxPlayers;
+    [SerializeField] int maxPlayers = 2;
+    [SerializeField] int minPlayers = 1;
+
+    [SerializeField] Button startButton;
 
     [SerializeField] bool keepSpecificSpot = true;
     // Start is called before the first frame update
-    void Start()
+
+    private void OnEnable()
     {
-        SetMaxPlayerAmount(maxPlayers);
         PlayerManager.instance.onNewPlayerConnected += PlayerConnectionAdded;
         foreach (PlayerData data in PlayerManager.instance.connectedToPCPlayers)
         {
             data.onPlayerReconnect += PlayerConnectionReconnected;
             data.onPlayerDisconnect += PlayerConnectionRemoved;
         }
-    }
-
-    private void OnEnable()
-    {
+        LoadConnectedPlayers();
     }
 
     private void OnDisable()
@@ -64,6 +64,12 @@ public class Lobby : Menu
                 PlayerManager.instance.connectedToLobbyPlayers.Add(null);
             }
         }
+    }
+
+    public void SetMinPlayerAmount(int amount)
+    {
+        minPlayers = amount;
+        UpdateUI();
     }
 
     void LoadConnectedPlayers()
@@ -114,10 +120,12 @@ public class Lobby : Menu
 
     void UpdateUI()
     {
+        int connectedAmount = 0;
         for (int i = 0; i < PlayerManager.instance.connectedToLobbyPlayers.Count; i++)
         {
             if (PlayerManager.instance.connectedToLobbyPlayers[i] != null && PlayerManager.instance.connectedToLobbyPlayers[i].isConnected)
             {
+                connectedAmount++;
                 playerIcons[i].gameObject.SetActive(true);
             }
             else
@@ -125,6 +133,8 @@ public class Lobby : Menu
                 playerIcons[i].gameObject.SetActive(false);
             }
         }
+
+        startButton.interactable = connectedAmount >= minPlayers ? true : false;
     }
 
     void TryAddPlayer(PlayerData player)

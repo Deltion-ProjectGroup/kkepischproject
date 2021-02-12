@@ -35,12 +35,18 @@ public class PlayerData : MonoBehaviour
     void SetConnectionTrue(PlayerInput input)
     {
         isConnected = true;
-        onPlayerReconnect.Invoke(this);
+        if(onPlayerReconnect != null)
+        {
+            onPlayerReconnect.Invoke(this);
+        }
     }
 
     void SetConnectionFalse(PlayerInput input)
     {
         isConnected = false;
-        onPlayerDisconnect.Invoke(this);
+        if(onPlayerDisconnect != null)
+        {
+            onPlayerDisconnect.Invoke(this);
+        }
     }
 }

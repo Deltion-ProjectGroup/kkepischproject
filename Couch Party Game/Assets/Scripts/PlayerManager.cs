@@ -28,7 +28,10 @@ public class PlayerManager : MonoBehaviour
     public void NewPlayerConnected(PlayerInput input)
     {
         connectedToPCPlayers.Add(input.GetComponent<PlayerData>());
-        onNewPlayerConnected.Invoke(input.GetComponent<PlayerData>());
+        if(onNewPlayerConnected != null)
+        {
+            onNewPlayerConnected.Invoke(input.GetComponent<PlayerData>());
+        }
     }
 
     public void PlayerDisconnected(PlayerInput input)
