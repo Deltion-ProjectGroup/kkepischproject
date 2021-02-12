@@ -23,8 +23,14 @@ public class SpawnManager : MonoBehaviour
 
             //availableSpawnLocations[1].RemoveLocation(0);
             //return;
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < PlayerManager.instance.connectedToLobbyPlayers.Count; i++)
             {
+                PlayerData thisPlayerData = PlayerManager.instance.connectedToLobbyPlayers[i];
+
+                if(thisPlayerData == null)
+                {
+                    continue;
+                }
                 GameObject selectedCharacter = availableCharacters[Random.Range(0, availableCharacters.Count)];
 
                 if (onlyUniqueCharacters && availableCharacters.Count > 1)
@@ -50,16 +56,20 @@ public class SpawnManager : MonoBehaviour
                         }
 
                         //HERE THE PLAYER GETS ACTUALLY SPAWNED
-                        ActualSpawn(selectedSpawn, selectedCharacter);
+                        ActualSpawn(selectedSpawn, selectedCharacter, i);
                     }
                 }
             }
         }
     }
 
-    void ActualSpawn(Transform location, GameObject character)
+    void ActualSpawn(Transform location, GameObject character, int playerIndex)
     {
-        Player newCharacter = Instantiate(character, location.position, location.rotation).GetComponent<Player>();
+        PlayerData data = PlayerManager.instance.connectedToLobbyPlayers[playerIndex];
+        PlayerInput newCharacterObject = PlayerInput.Instantiate(character, data.playerInput.playerIndex, data.playerInput.currentControlScheme, -1, data.playerInput.devices[0]);
+        newCharacterObject.transform.position = location.position;
+        newCharacterObject.transform.rotation = location.rotation;
+        Player newCharacter = newCharacterObject.GetComponent<Player>();
         localPlayers.Add(newCharacter);
         globalPlayers.Add(newCharacter);
     }

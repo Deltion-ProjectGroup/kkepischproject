@@ -20,6 +20,10 @@ public class UsableGrabbable : Grabbable
     public virtual void Use()
     {
         canUse = false;
+    }
+
+    public virtual void StopUse()
+    {
         StartUseDelay();
     }
 

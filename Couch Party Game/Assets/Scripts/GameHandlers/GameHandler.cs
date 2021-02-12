@@ -23,18 +23,19 @@ public class GameHandler : MonoBehaviour
     [Header("Spawning")]
     [SerializeField] SpawnManager spawnHandler;
 
+    private void Start()
+    {
+        StartGame();
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            StartGame();
-        }
     }
 
     public void StartGame()
     {      
         StartStopCountdown(true, true);
-        //spawnHandler.GetSpawnData();
+        spawnHandler.GetSpawnData();
     }
 
     public void StartStopCountdown(bool start, bool resetOnStart = false)
