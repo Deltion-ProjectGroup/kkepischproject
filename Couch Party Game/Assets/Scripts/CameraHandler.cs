@@ -6,25 +6,29 @@ public class CameraHandler : MonoBehaviour
 {
     [SerializeField] SpawnManager playerHandler;
     [SerializeField] Transform globalCamera;
-    [SerializeField] float maxCameraDistance, distancePerUnitApart;
-    [SerializeField] float minDistanceBeforeEffect;
+    [SerializeField] float maxCameraDistance;
+    [SerializeField] float minCameraDistance;
     [SerializeField] float playerBoundsOffset;
-    [SerializeField] float zoomSpeed = 1;
+    [SerializeField] float distanceSpeedModifier = 1;
+    [SerializeField] float smoothZoomModifier = 1;
 
     bool inAllowedRange = true;
     Vector3 defaultLocation;
     Vector3 targetLocation;
 
+    Bounds currentBounds;
+
     [SerializeField] bool handleTheCameras = true;
     // Start is called before the first frame update
     void Start()
     {
+        currentBounds = new Bounds();
         defaultLocation = globalCamera.position;
         targetLocation = defaultLocation;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if(playerHandler.localPlayers.Count > 0 && handleTheCameras)
         {
@@ -35,46 +39,62 @@ public class CameraHandler : MonoBehaviour
                 center += player.transform.position;
             }
 
+            center /= playerHandler.localPlayers.Count;
+
             targetLocation.x = center.x;
 
-            center /= playerHandler.localPlayers.Count;
-            Bounds bounds = new Bounds(center, Vector3.zero);
-
-            foreach (Player player in playerHandler.localPlayers)
-            {
-                bounds.Encapsulate(player.transform.position);
-            }
-            bounds.Expand(-playerBoundsOffset);
-
-            Camera cam = globalCamera.GetComponent<Camera>();
-            Plane[] planes = GeometryUtility.CalculateFrustumPlanes(cam);
-
-            float zoomAmount = Time.deltaTime * zoomSpeed;
             Vector3 ogCameraPosition = globalCamera.position;
-            if (GeometryUtility.TestPlanesAABB(planes, bounds))
+            globalCamera.position = targetLocation;
+
+            float zoomAmount = Time.deltaTime * distanceSpeedModifier;
+
+            if (IsEveryoneVisible())
             {
-                Debug.Log("PLAYERS ARE IN BOUNDS");
+                Debug.Log("VISIBLE");
                 targetLocation += globalCamera.forward * zoomAmount;
+
                 globalCamera.position = targetLocation;
 
-                if (!GeometryUtility.TestPlanesAABB(planes, bounds))
+                if (!IsEveryoneVisible())
                 {
-                    Debug.Log("PLAYERS ARE NOT IN BOUNDS ANYMORE, REVERT");
-
                     targetLocation += -globalCamera.forward * zoomAmount;
                 }
-
-                globalCamera.position = ogCameraPosition;
             }
             else
             {
-                Debug.Log("PLAYERS ARE NOT IN BOUNDS");
                 targetLocation += -globalCamera.forward * zoomAmount;
             }
 
-            globalCamera.position = Vector3.Lerp(globalCamera.position, targetLocation, zoomSpeed);
+            globalCamera.position = ogCameraPosition;
+
+            globalCamera.position = Vector3.Lerp(globalCamera.position, targetLocation, smoothZoomModifier);
 
 
         }
+    }
+
+    bool IsEveryoneVisible()
+    {
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(globalCamera.GetComponent<Camera>());
+
+        foreach(Player player in playerHandler.localPlayers)
+        {
+            Bounds bounds = player.GetComponent<Collider>().bounds;
+            bounds.Expand(-playerBoundsOffset);
+
+            if (!GeometryUtility.TestPlanesAABB(planes, bounds))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawCube(currentBounds.center, currentBounds.size);
     }
 }
