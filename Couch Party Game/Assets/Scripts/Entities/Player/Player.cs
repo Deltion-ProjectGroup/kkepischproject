@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 using UnityEngine;
 
 public class Player : MovingEntity
 {
     [Header("General")]
     public Role role; //The role of the player, this is used for where the player needs to be spawned
+    PlayerControls controls;
 
     [Header("Movement")]
+    [SerializeField]Vector2 rawMovement;
+
     public bool canMove = true;
     [SerializeField] float maxVelocity = 1;
     public int decellerationBlocks;
@@ -65,12 +69,8 @@ public class Player : MovingEntity
 
     private void Update()
     {
-        Interact();
         CameraFollow();
-        //DropCurrentItem();
-        //ThrowCurrentItem();
-        CheckDash();
-        Jump();
+        CheckInteract();
     }
 
     private void FixedUpdate()
@@ -78,22 +78,38 @@ public class Player : MovingEntity
         Movement();
     }
 
-    void UseCurrentItem()
+
+    private void Start()
     {
-        if (canInteract && currentHoldingItem != null && Input.GetButtonDown(interactButton))
+        if(playerCamera != null)
+        {
+            playerCamera.parent = null;
+        }
+    }
+
+    public void UseCurrentItem(InputAction.CallbackContext context)
+    {
+        if (canInteract && currentHoldingItem != null)
         {
             UsableGrabbable grabbable = currentHoldingItem.GetComponent<UsableGrabbable>();
             if(grabbable != null && grabbable.CheckUse())
             {
-                grabbable.Use();
+                    if (context.started && grabbable.CheckUse())
+                    {
+                        grabbable.Use();
+                    }
+                    if (context.canceled)
+                    {
+                        grabbable.StopUse();
+                    }
             }
 
         }
     }
 
-    void ThrowCurrentItem()
+    public void ThrowCurrentItem(InputAction.CallbackContext context)
     {
-        if(canInteract && currentHoldingItem != null && Input.GetButtonDown(throwButton))
+        if(context.started && canInteract && currentHoldingItem != null)
         {
             Grabbable lastItem = currentHoldingItem;
             currentHoldingItem.Disattach();
@@ -108,17 +124,17 @@ public class Player : MovingEntity
         }
     }
 
-    void DropCurrentItem()
+    public void DropCurrentItem(InputAction.CallbackContext context)
     {
-        if (currentHoldingItem != null && Input.GetButtonDown(dropButton))
+        if (context.started && currentHoldingItem != null)
         {
             currentHoldingItem.Disattach();
         }
     }
 
-    void Jump()
+    public void Jump(InputAction.CallbackContext context)
     {
-        if(canJump && Input.GetButtonDown(jumpButton))
+        if(context.started && canJump)
         {
             if (Physics.Raycast(transform.position, -transform.up, jumpDetectionRange, jumpableLayers, QueryTriggerInteraction.Ignore))
             {
@@ -127,15 +143,25 @@ public class Player : MovingEntity
         }
     }
 
+    public void SetMoveAmount(InputAction.CallbackContext context)
+    {
+        if(context.performed || context.started)
+        {
+            rawMovement = context.ReadValue<Vector2>();
+        }
+        else
+        {
+            rawMovement = Vector3.zero;
+        }
+    }
+
     void Movement()
     {
-        Vector3 movementAmount = canMove ? new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")) : Vector3.zero;
+        Vector3 movementAmount = new Vector3(rawMovement.x, 0, rawMovement.y);
 
         movementAmount = movementAmount.normalized;
 
-        Vector3 movementAmountRaw = movementAmount;
-
-        if (movementAmountRaw.x != 0 || movementAmountRaw.z != 0)
+        if (rawMovement.x != 0 || rawMovement.y != 0)
         {
 
             movementAmount = movementAmount * movementSpeed * Time.fixedDeltaTime;
@@ -174,7 +200,7 @@ public class Player : MovingEntity
 
             RaycastHit hitData;
 
-            if (Physics.Raycast(slopeCheckOrigin.position, movementAmountRaw, out hitData, rayRange, slopeMask))
+            if (Physics.Raycast(slopeCheckOrigin.position, new Vector3(rawMovement.x, 0, rawMovement.y), out hitData, rayRange, slopeMask))
             {
                 float angle = Vector3.Angle(transform.up, hitData.transform.up);
                 if (angle <= maxAngle)
@@ -216,20 +242,14 @@ public class Player : MovingEntity
         }
     }
 
-    void CheckDash()
+    public void Dash(InputAction.CallbackContext context)
     {
-        if (canDash && Input.GetButtonDown(dashButton))
+        if (context.started && canDash)
         {
-            PerformDash();
+            canMove = false;
+            canDash = false;
+            StartCoroutine(DashRoutine());
         }
-    }
-
-    void PerformDash()
-    {
-        Debug.Log("DASHED");
-        canMove = false;
-        canDash = false;
-        StartCoroutine(DashRoutine());
     }
 
     IEnumerator DashRoutine()
@@ -264,53 +284,39 @@ public class Player : MovingEntity
         canMove = true;
     }
 
-    bool CheckInteract() //Checks if the player is near something that they can interact with
+    void CheckInteract() //Checks if the player is near something that they can interact with
     {
-        if(currentUsingInteractable == null)
+        Collider[] hitColliders = Physics.OverlapBox(interactionBox.position, interactionBox.lossyScale / 2, interactionBox.rotation, interactableLayers);
+
+        Interactable closestInteractable = null;
+
+        if (hitColliders.Length > 0)
         {
-            Collider[] hitColliders = Physics.OverlapBox(interactionBox.position, interactionBox.lossyScale / 2, interactionBox.rotation, interactableLayers);
+            float closestDistance = float.MaxValue;
 
-            if (hitColliders.Length > 0)
+            foreach (Collider col in hitColliders)
             {
-                Interactable closestInteractable = null;
-                float closestDistance = float.MaxValue;
-
-                foreach (Collider col in hitColliders)
+                Interactable interactable = col.GetComponent<Interactable>();
+                if (interactable.CanInteract(this))
                 {
-                    Interactable interactable = col.GetComponent<Interactable>();
-                    if (interactable.CanInteract(this))
+                    float distance = Vector3.Distance(col.transform.position, transform.position);
+                    if (distance < closestDistance || closestInteractable == null)
                     {
-                        float distance = Vector3.Distance(col.transform.position, transform.position);
-                        if (distance < closestDistance || closestInteractable == null)
-                        {
-                            closestInteractable = interactable;
-                            closestDistance = distance;
-                        }
+                        closestInteractable = interactable;
+                        closestDistance = distance;
                     }
                 }
-
-                nearestInteractable = closestInteractable;
-                return nearestInteractable != null;
             }
         }
-        return false;
+
+        nearestInteractable = closestInteractable;
     }
 
-    void Interact()
+    public void Interact(InputAction.CallbackContext context)
     {
-        if (CheckInteract())
+        if (context.started && nearestInteractable != null && canInteract)
         {
-            if (canInteract && Input.GetButtonDown(interactButton))
-            {
-                nearestInteractable.Interact(this);
-            }
-        }
-        else
-        {
-            if (canInteract && Input.GetButtonDown(interactButton))
-            {
-                UseCurrentItem();
-            }
+            nearestInteractable.Interact(this);
         }
 
     }

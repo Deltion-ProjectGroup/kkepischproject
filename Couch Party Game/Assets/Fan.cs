@@ -8,10 +8,6 @@ public class Fan : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        foreach (string test in Input.GetJoystickNames())
-        {
-            Debug.Log(test);
-        }
 
     }
 
