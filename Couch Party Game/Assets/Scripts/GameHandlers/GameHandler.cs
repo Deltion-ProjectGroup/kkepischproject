@@ -117,7 +117,6 @@ namespace Custom.Time
 
         public IEnumerator Countdown()
         {
-            Debug.Log(remainingMinutes);
             while (remainingMinutes != 0 || remainingSeconds != 0)
             {
                 if (remainingSeconds > 0)
