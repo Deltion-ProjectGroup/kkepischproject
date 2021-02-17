@@ -5,6 +5,7 @@ using UnityEngine;
 public class Fan : MonoBehaviour
 {
     [SerializeField] float force = 1;
+
     // Start is called before the first frame update
     void Start()
     {
