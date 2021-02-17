@@ -14,6 +14,8 @@ public class SpawnManager : MonoBehaviour
     [HideInInspector] public List<Player> globalPlayers = new List<Player>();
     [HideInInspector] public GameObject lastLocalPlayer;
 
+    [SerializeField] CameraHandler cameraHandler;
+
     public void GetSpawnData()
     {
         if(allCharacters.Length > 0 && defaultSpawn != null)
@@ -21,8 +23,6 @@ public class SpawnManager : MonoBehaviour
             List<GameObject> availableCharacters = new List<GameObject>(allCharacters);
             List<SpawnLocations> availableSpawnLocations = new List<SpawnLocations>(allSpawnLocations);
 
-            //availableSpawnLocations[1].RemoveLocation(0);
-            //return;
             for (int i = 0; i < PlayerManager.instance.connectedToLobbyPlayers.Count; i++)
             {
                 PlayerData thisPlayerData = PlayerManager.instance.connectedToLobbyPlayers[i];
@@ -61,6 +61,8 @@ public class SpawnManager : MonoBehaviour
                 }
             }
         }
+
+        cameraHandler.InitializeSplitscreenCameras();
     }
 
     void ActualSpawn(Transform location, GameObject character, int playerIndex)

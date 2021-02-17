@@ -35,9 +35,11 @@ public class Player : MovingEntity
 
     [Header("Camera")]
     public Transform playerCamera;
-    [SerializeField] bool followX = true, followZ = true;
-    [SerializeField] float zDistance;
+    [SerializeField] bool followX = true, followY = true, followZ = true;
+    public float zDistance, yDistance;
     [SerializeField] float followSpeed;
+
+    public Splitscreen attachedSplitscreen;
 
     [Header("Interaction")]
     [SerializeField] string interactButton;
@@ -81,6 +83,8 @@ public class Player : MovingEntity
 
     private void Start()
     {
+        zDistance = zDistance == 0 ? playerCamera.localPosition.z : zDistance;
+        yDistance = yDistance == 0 ? playerCamera.localPosition.y : yDistance;
         if(playerCamera != null)
         {
             playerCamera.parent = null;
@@ -345,6 +349,11 @@ public class Player : MovingEntity
         if (followX)
         {
             targetPosition.x = transform.position.x;
+        }
+        if (followY)
+        {
+            float distanceToMoveOnY = playerCamera.transform.position.y - transform.position.y <= 0 ? -1 * yDistance : 1 * yDistance;
+            targetPosition.y = transform.position.y + distanceToMoveOnY;
         }
         if (followZ)
         {
