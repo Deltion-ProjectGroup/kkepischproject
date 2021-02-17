@@ -39,7 +39,7 @@ public class Player : MovingEntity
     public float zDistance, yDistance;
     [SerializeField] float followSpeed;
 
-    public Splitscreen attachedSplitscreen;
+    public GameObject attachedSplitscreen;
 
     [Header("Interaction")]
     [SerializeField] string interactButton;

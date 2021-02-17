@@ -113,8 +113,7 @@ public class CameraHandler : MonoBehaviour
             {
                 RenderTexture texture = new RenderTexture((int)splitscreenSizeX, (int)splitscreenSizeY, 0);
                 playerHandler.localPlayers[i].playerCamera.GetComponent<Camera>().targetTexture = texture;
-                playerHandler.localPlayers[i].attachedSplitscreen = newSplitscreen.GetComponent<Splitscreen>();
-                newSplitscreen.GetComponent<Splitscreen>().owner = playerHandler.localPlayers[i];
+                playerHandler.localPlayers[i].attachedSplitscreen = newSplitscreen;
                 newSplitscreen.GetComponent<RawImage>().color = Color.white;
                 newSplitscreen.GetComponent<RawImage>().texture = texture;
             }

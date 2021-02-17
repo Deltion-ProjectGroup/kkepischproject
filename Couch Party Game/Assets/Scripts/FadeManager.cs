@@ -6,12 +6,7 @@ using UnityEngine.UI;
 
 public class FadeManager : MonoBehaviour
 {
-    public UnityAction onFadedIn, onFadedOut;
-    [SerializeField] Image fadePanel;
-
-
     [SerializeField] float defaultFadeDuration = 1;
-    Coroutine fadeRoutine;
 
     [SerializeField] bool unfadeOnStart;
     // Start is called before the first frame update
@@ -29,159 +24,131 @@ public class FadeManager : MonoBehaviour
         
     }
 
-    private void OnDisable()
-    {
-        if(fadeRoutine != null)
-        {
-            StopCoroutine(fadeRoutine);
-            fadeRoutine = null;
-            if(onFadedIn != null)
-            {
-                onFadedIn.Invoke();
-            }
-            if(onFadedOut != null)
-            {
-                onFadedOut.Invoke();
-            }
-        }
-    }
-
     public void FadeInOut()
     {
-        if (fadeRoutine != null)
-        {
-            StopCoroutine(fadeRoutine);
-        }
-        fadeRoutine = StartCoroutine(FadeInOutRoutine(defaultFadeDuration));
+        StartCoroutine(FadeInOutRoutine(defaultFadeDuration));
     }
 
     public void FadeInOut(float duration)
     {
-        if(fadeRoutine != null)
-        {
-            StopCoroutine(fadeRoutine);
-        }
-        fadeRoutine = StartCoroutine(FadeInOutRoutine(duration));
+        StartCoroutine(FadeInOutRoutine(duration));
     }
 
     public void FadeIn()
     {
-        if (fadeRoutine != null)
-        {
-            StopCoroutine(fadeRoutine);
-        }
-        fadeRoutine = StartCoroutine(FadeInRoutine(defaultFadeDuration));
+        StartCoroutine(FadeInRoutine(defaultFadeDuration));
     }
 
     public void FadeIn(float duration)
     {
-        if (fadeRoutine != null)
-        {
-            StopCoroutine(fadeRoutine);
-        }
-        fadeRoutine = StartCoroutine(FadeInRoutine(duration));
+        StartCoroutine(FadeInRoutine(duration));
     }
 
     public void FadeOut()
     {
-        if (fadeRoutine != null)
-        {
-            StopCoroutine(fadeRoutine);
-        }
-        fadeRoutine = StartCoroutine(FadeOutRoutine(defaultFadeDuration));
+        StartCoroutine(FadeOutRoutine(defaultFadeDuration));
     }
 
     public void FadeOut(float duration)
     {
-        if (fadeRoutine != null)
-        {
-            StopCoroutine(fadeRoutine);
-        }
-        fadeRoutine = StartCoroutine(FadeOutRoutine(duration));
+        StartCoroutine(FadeOutRoutine(duration));
     }
 
-    IEnumerator FadeInOutRoutine(float duration)
+    IEnumerator FadeInOutRoutine(FadePanel target, float duration, bool destroyOnComplete = true)
     {
         Debug.Log("ZZZ");
-        fadePanel.raycastTarget = true;
-        Color newColor = fadePanel.color;
+        target.fadePanel.raycastTarget = true;
+        Color newColor = target.fadePanel.color;
 
         float modifyAmount = 1;
         modifyAmount /= duration;
         modifyAmount /= 2;
 
-        while(fadePanel.color.a < 1)
+        while(target.fadePanel.color.a < 1)
         {
-            //Debug.Log(modifyAmount);
             newColor.a += modifyAmount * Time.deltaTime;
-            fadePanel.color = newColor;
+            target.fadePanel.color = newColor;
             yield return null;
         }
 
-        if(onFadedIn != null)
+        if(target.onFadedIn != null)
         {
-            onFadedIn.Invoke();
+            target.onFadedIn.Invoke();
         }
 
-        fadePanel.raycastTarget = false;
+        target.fadePanel.raycastTarget = false;
 
         modifyAmount = -1;
         modifyAmount /= duration;
         modifyAmount /= 2;
 
-        while (fadePanel.color.a > 0)
+        while (target.fadePanel.color.a > 0)
         {
             newColor.a += modifyAmount * Time.deltaTime;
-            fadePanel.color = newColor;
+            target.fadePanel.color = newColor;
             yield return null;
         }
 
-        if(onFadedOut != null)
+        if(target.onFadedOut != null)
         {
-            onFadedOut.Invoke();
+            target.onFadedOut.Invoke();
+        }
+        if (destroyOnComplete)
+        {
+            Destroy(target.gameObject);
         }
     }
 
-    IEnumerator FadeOutRoutine(float duration)
+    IEnumerator FadeOutRoutine(FadePanel target, float duration, bool destroyOnComplete = true)
     {
-        fadePanel.raycastTarget = false;
-        Color newColor = fadePanel.color;
+        target.fadePanel.raycastTarget = false;
+        Color newColor = target.fadePanel.color;
         float modifyAmount = -1;
         modifyAmount /= duration;
         modifyAmount /= 2;
 
-        while (fadePanel.color.a > 0)
+        while (target.fadePanel.color.a > 0)
         {
             newColor.a += modifyAmount * Time.deltaTime;
-            fadePanel.color = newColor;
+            target.fadePanel.color = newColor;
             yield return null;
         }
 
-        if (onFadedIn != null)
+        if (target.onFadedIn != null)
         {
-            onFadedIn.Invoke();
+            target.onFadedIn.Invoke();
+        }
+
+        if (destroyOnComplete)
+        {
+            Destroy(target.gameObject);
         }
     }
 
-    IEnumerator FadeInRoutine(float duration)
+    IEnumerator FadeInRoutine(FadePanel target, float duration, bool destroyOnComplete = true)
     {
-        fadePanel.raycastTarget = true;
-        Color newColor = fadePanel.color;
+        target.fadePanel.raycastTarget = true;
+        Color newColor = target.fadePanel.color;
 
         float modifyAmount = 1;
         modifyAmount /= duration;
         modifyAmount /= 2;
 
-        while (fadePanel.color.a < 1)
+        while (target.fadePanel.color.a < 1)
         {
             newColor.a += modifyAmount * Time.deltaTime;
-            fadePanel.color = newColor;
+            target.fadePanel.color = newColor;
             yield return null;
         }
 
-        if (onFadedOut != null)
+        if (target.onFadedOut != null)
         {
-            onFadedOut.Invoke();
+            target.onFadedOut.Invoke();
+        }
+
+        if (destroyOnComplete)
+        {
+            Destroy(target.gameObject);
         }
     }
 

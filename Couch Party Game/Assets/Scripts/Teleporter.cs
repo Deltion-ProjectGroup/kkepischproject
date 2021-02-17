@@ -26,7 +26,6 @@ public class Teleporter : MonoBehaviour
 
         if (player != null)
         {
-            player.attachedSplitscreen.onFadedIn -= PerformTeleport;
             if (resetCamera)
             {
                 GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraHandler>().ResetCamera();
@@ -57,11 +56,6 @@ public class Teleporter : MonoBehaviour
             if(player == null)
             {
                 PerformTeleport(targetToTeleport);
-            }
-            else
-            {
-                player.attachedSplitscreen.onFadedIn += PerformTeleport;
-                player.attachedSplitscreen.FadeInOut(fadeDuration);
             }
         }
     }
